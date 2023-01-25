@@ -4,7 +4,9 @@ import moment from 'moment-timezone';
 import fetch from 'node-fetch';
 import minimist from 'minimist';
 
-var args = process.argv.slice(2); //taken directly from minimist site, but removed require at advice from logs
+var args = minimist(process.argv.slice(2)); //taken directly from minimist site, but removed require at advice from error logs
+let lat = 0;
+let lon = 0;
 
 // need to add the help text
 if (args.h) {
@@ -15,19 +17,42 @@ if (args.h) {
 	console.log('-z            Time zone: uses tz.guess() from moment-timezone by default.');
 	console.log('-d 0-6        Day to retrieve weather: 0 is today; defaults to 1.');
 	console.log('-j            Echo pretty JSON from open-meteo API and exit.');
-	exit(0);
+	process.exit(0); // taken from https://stackoverflow.com/questions/5266152/how-to-exit-in-node-js
 }
 
+// additional command arguments
+if (args.n) {
+	if (args.n <= 0) {
+		console.log('Latitude must be positve');
+	}
+	lat = args.n;
+}
+if (args.s) {
+	if (args.s >= 0) {
+		console.log('Latitude must be negative');
+	}
+	lat = -args.s;
+}
+if (args.e) {
+	if (args.e <= 0) {
+		console.log('Longitude must be positve');
+	}
+	lon = args.e;
+}
+if (args.w) {
+	if (args.e >= 0) {
+		console.log('Longitude must be nagative');
+	}
+	lon = args.w;
+}
+
+
+// extract system timezone
 const timezone = moment.tz.guess();
 
-let lat = 0;
-let lon = 0;
 
-//var dailyWeather;
-//var maxTemp;
-//var minTemp;
 
-// Make a request
+// Make a request with the URL from the API URL builder
 const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat
 							+ '&longitude=' + lon
 							+ '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch'
