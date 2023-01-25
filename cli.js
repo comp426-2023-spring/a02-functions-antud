@@ -20,6 +20,21 @@ if (args.h) {
 	process.exit(0); // taken from https://stackoverflow.com/questions/5266152/how-to-exit-in-node-js
 }
 
+
+
+// extract system timezone
+const timezone = moment.tz.guess();
+
+
+// Make a request with the URL from the API URL builder
+const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat
+							+ '&longitude=' + lon
+							+ '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch'
+							+ '&timezone=' + timezone);  //America%2FNew_York')
+
+// Get the data from the request
+const data = await response.json();
+
 // additional command arguments
 if (args.n) { // pos
 	lat = args.n;
@@ -41,17 +56,9 @@ else {
 	console.log('Longitude must be in range');
 }
 
-// extract system timezone
-const timezone = moment.tz.guess();
-
-// Make a request with the URL from the API URL builder
-const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat
-							+ '&longitude=' + lon
-							+ '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch'
-							+ '&timezone=' + timezone);  //America%2FNew_York')
-
-// Get the data from the request
-const data = await response.json();		
+if (args.z) {
+	timezone = args.z;
+}
 
 //Create the response text using conditional statements
 const days = args.d;
