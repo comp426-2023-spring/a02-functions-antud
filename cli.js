@@ -17,3 +17,18 @@ if (argv.h) {
 	console.log('-j            Echo pretty JSON from open-meteo API and exit.');
 	exit(0);
 }
+
+const timezone = moment.tz.guess();
+
+let lat = 0;
+let lon = 0;
+
+//var dailyWeather;
+//var maxTemp;
+//var minTemp;
+
+
+const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat
+							+ '&longitude=' + lon
+							+ '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_hours&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch'
+							+ '&timezone=' + timezone);  //America%2FNew_York')
