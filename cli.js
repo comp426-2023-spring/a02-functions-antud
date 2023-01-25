@@ -46,11 +46,8 @@ if (args.w) {
 	lon = args.w;
 }
 
-
 // extract system timezone
 const timezone = moment.tz.guess();
-
-
 
 // Make a request with the URL from the API URL builder
 const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat
@@ -71,4 +68,10 @@ else if (days > 1) {
 }
 else {
 	console.log('tomorrow');
+}
+
+
+if (args.j) {
+	console.log(data);
+	process.exit(0);
 }
