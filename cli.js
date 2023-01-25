@@ -22,26 +22,38 @@ if (args.h) {
 
 // additional command arguments
 if (args.n) {
-	if (args.n <= 0) {
-		console.log('Latitude must be positve');
+	if (args.n < 0) {
+		console.log('Latitude must be positive');
+	}
+	else if (args.n == 0) {
+		console.log('Latitude must be in range')
 	}
 	lat = args.n;
 }
 if (args.s) {
-	if (args.s >= 0) {
+	if (args.s > 0) {
 		console.log('Latitude must be negative');
+	}
+	else if (args.s == 0) {
+		console.log('Latitude must be in range')
 	}
 	lat = -args.s;
 }
 if (args.e) {
-	if (args.e <= 0) {
-		console.log('Longitude must be positve');
+	if (args.e < 0) {
+		console.log('Longitude must be positive');
+	}
+	else if (args.e == 0) {
+		console.log('Longitude must be in range')
 	}
 	lon = args.e;
 }
 if (args.w) {
-	if (args.e >= 0) {
-		console.log('Longitude must be nagative');
+	if (args.e > 0) {
+		console.log('Longitude must be negative');
+	}
+	else if (args.w == 0) {
+		console.log('Longitude must be in range')
 	}
 	lon = args.w;
 }
